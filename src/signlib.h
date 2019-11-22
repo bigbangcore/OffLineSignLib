@@ -36,7 +36,12 @@ typedef struct _Transaction
     unsigned char *sign_bytes; // binary
 } Transaction;
 
-/**
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    /**
  * @brief  MakeKeyPair
  * Generate public key and private key 
  *
@@ -47,10 +52,9 @@ typedef struct _Transaction
  * @param  char *           privkey - private key hex string (output)
  * @return none
  */
-extern "C" void
-MakeKeyPair(char *pubkey, char *privkey);
+    void MakeKeyPair(char *pubkey, char *privkey);
 
-/**
+    /**
  * @brief  GetPubKeyAddress
  * Get Address hex string from public key hex string 
  *
@@ -61,9 +65,9 @@ MakeKeyPair(char *pubkey, char *privkey);
  * @param  char *           address - address hex string (output)
  * @return none
  */
-extern "C" void GetPubKeyAddress(const char *pubkey, char *address);
+    void GetPubKeyAddress(const char *pubkey, char *address);
 
-/**
+    /**
  * @brief  IsValidAddress
  * validate Address hex string is valid 
  *
@@ -73,9 +77,9 @@ extern "C" void GetPubKeyAddress(const char *pubkey, char *address);
  * @param  const char *           address - address hex string (input)
  * @return 0 false 1 true
  */
-extern "C" BOOL IsValidAddress(const char *address);
+    BOOL IsValidAddress(const char *address);
 
-/**
+    /**
  * @brief  SignTransaction
  * Sign Transaction
  *
@@ -86,9 +90,9 @@ extern "C" BOOL IsValidAddress(const char *address);
  * @param  const char *          secretHex - secretKey hex string (input)
  * @return none
  */
-extern "C" void SignTransation(Transaction *tx, const char *secretHex);
+    void SignTransation(Transaction *tx, const char *secretHex);
 
-/**
+    /**
  * @brief  SerializeTxWithSign
  * Serialize Transaction
  *
@@ -99,9 +103,9 @@ extern "C" void SignTransation(Transaction *tx, const char *secretHex);
  * @param  char *                dataHex - data hex string serialized (output)
  * @return none
  */
-extern "C" void SerializeTxWithSign(Transaction *tx, char *dataHex);
+    void SerializeTxWithSign(Transaction *tx, char *dataHex);
 
-/**
+    /**
  * @brief  SerializeTxWithoutSign
  * Serialize Transaction
  *
@@ -112,9 +116,9 @@ extern "C" void SerializeTxWithSign(Transaction *tx, char *dataHex);
  * @param  char *                dataHex - data hex string serialized (output)
  * @return none
  */
-extern "C" void SerializeTxWithoutSign(Transaction *tx, char *dataHex);
+    void SerializeTxWithoutSign(Transaction *tx, char *dataHex);
 
-/**
+    /**
  * @brief  DeserializeTxWithSign
  * Deserialize Transaction
  *
@@ -125,9 +129,9 @@ extern "C" void SerializeTxWithoutSign(Transaction *tx, char *dataHex);
  * @param  Transaction *         tx - Transaction struct deserialized (output)
  * @return none
  */
-extern "C" void DeserializeTxWithSign(const char *dataHex, Transaction *tx);
+    void DeserializeTxWithSign(const char *dataHex, Transaction *tx);
 
-/**
+    /**
  * @brief  DeserializeTxWithoutSign
  * Deserialize Transaction
  *
@@ -138,6 +142,10 @@ extern "C" void DeserializeTxWithSign(const char *dataHex, Transaction *tx);
  * @param  Transaction *         tx - Transaction struct deserialized (output)
  * @return none
  */
-extern "C" void DeserializeTxWithoutSign(const char *dataHex, Transaction *tx);
+    void DeserializeTxWithoutSign(const char *dataHex, Transaction *tx);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
