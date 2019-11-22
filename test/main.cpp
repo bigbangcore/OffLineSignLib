@@ -56,7 +56,7 @@ int main()
 
     printf("----------------------- no signed tx test ----------------------\n");
 
-    Transaction tx_desrialized;
+    Transaction tx_desrialized = {0};
 
     DeserializeTxWithoutSign(created_tx_hex_data, &tx_desrialized);
 
@@ -91,15 +91,14 @@ int main()
 
     if (strcmp(hexxx, created_tx_hex_data) != 0)
     {
-        printf("serialize error\n");
+        fprintf(stderr, "SerializeTxWithoutSign TEST error\n");
+        fprintf(stderr, "SerializeTxWithoutSign hex: %s\n", hexxx);
+        return -1;
     }
-
-    free(tx_desrialized.input);
-    free(tx_desrialized.vch_data);
 
     printf("------------------- signed tx test-------------------\n");
 
-    Transaction tx_signed_deserialized;
+    Transaction tx_signed_deserialized = {0};
     DeserializeTxWithSign(signed_tx_hex_data, &tx_signed_deserialized);
 
     printf("tx version is: %u\n", tx_signed_deserialized.version);
@@ -133,16 +132,14 @@ int main()
 
     if (strcmp(hexSignedTx, signed_tx_hex_data) != 0)
     {
-        printf("serialize signed error\n");
+        fprintf(stderr, "SerializeTxWithSign TEST error!\n");
+        fprintf(stderr, "SerializeTxWithSign Hex: %s\n", hexSignedTx);
+        return -1;
     }
 
-    printf("hex SIgned Tx: %s\n", hexSignedTx);
+    printf("SerializeTxWithSign Hex: %s\n", hexSignedTx);
 
-    free(tx_signed_deserialized.input);
-    free(tx_signed_deserialized.vch_data);
-    free(tx_signed_deserialized.sign_bytes);
-
-    Transaction tx_desrialized1;
+    Transaction tx_desrialized1 = {0};
     DeserializeTxWithoutSign(created_tx_hex_data1, &tx_desrialized1);
 
     SignTransation(&tx_desrialized1, "3a7a45f05643fa2e7eeb11da2e2c66e43ddf4f7535dccbb3e6c07fb39201b1df");
@@ -152,14 +149,12 @@ int main()
 
     if (strcmp(signedDataHex, signed_tx_hex_data1) != 0)
     {
-        printf("serialize tx failed\n");
+        fprintf(stderr, "SerializeTxWithSign TEST error!\n");
+        fprintf(stderr, "SerializeTxWithSign Hex: %s\n", signedDataHex);
+        return -1;
     }
 
-    printf("signedDataHEx: %s\n", signedDataHex);
-
-    free(tx_desrialized1.input);
-    free(tx_desrialized1.vch_data);
-    free(tx_desrialized1.sign_bytes);
+    printf("SerializeTxWithSign Hex: %s\n", signedDataHex);
 
     return 0;
 }
