@@ -95,7 +95,7 @@ static size_t tx_deserialize_without_sign(unsigned char *data, Transaction *tx)
     deserialize_join(&size, data, &tx->size0, size_thing);
 
     size_thing = (sizeof(unsigned char) * (32 + 1)) * tx->size0;
-    tx->input = (unsigned char *)malloc(size_thing);
+    //tx->input = (unsigned char *)malloc(size_thing);
     deserialize_join(&size, data, tx->input, size_thing);
 
     size_thing = sizeof(tx->prefix);
@@ -114,7 +114,7 @@ static size_t tx_deserialize_without_sign(unsigned char *data, Transaction *tx)
     deserialize_join(&size, data, &tx->size1, size_thing);
 
     size_thing = tx->size1;
-    tx->vch_data = (unsigned char *)malloc(tx->size1);
+    //tx->vch_data = (unsigned char *)malloc(tx->size1);
     deserialize_join(&size, data, tx->vch_data, size_thing);
 
     return size;
@@ -221,7 +221,7 @@ void SerializeTxWithSign(Transaction *tx, char *dataHex)
     std::vector<unsigned char> signBytes = ParseHexString(tx->sign);
 
     tx->size2 = signBytes.size();
-    tx->sign_bytes = (unsigned char *)malloc(tx->size2);
+    //tx->sign_bytes = (unsigned char *)malloc(tx->size2);
     memcpy(tx->sign_bytes, signBytes.data(), tx->size2);
 
     size = tx_serialize_without_sign(tx, data);
@@ -267,7 +267,7 @@ void DeserializeTxWithSign(const char *dataHex, Transaction *tx)
     deserialize_join(&size, data.data(), &tx->size2, size_thing);
 
     size_thing = tx->size2 * sizeof(unsigned char);
-    tx->sign_bytes = (unsigned char *)malloc(size_thing);
+    //tx->sign_bytes = (unsigned char *)malloc(size_thing);
 
     deserialize_join(&size, data.data(), tx->sign_bytes, size_thing);
 
@@ -350,16 +350,18 @@ static void ConvertTransactionFromJava2C(JNIEnv *env, jobject jtx, Transaction *
 
     jbyteArray inputData = (jbyteArray)env->GetObjectField(jtx, inputField);
     jbyte *pInput = env->GetByteArrayElements(inputData, JNI_FALSE);
-    tx->input = (unsigned char *)pInput;
+    //tx->input = (unsigned char *)pInput;
     jsize size0 = env->GetArrayLength(inputData);
+    memcpy(tx->input, (unsigned char *)pInput, size0);
     tx->size0 = size0;
     env->ReleaseByteArrayElements(inputData, pInput, 0);
     env->DeleteLocalRef(inputData);
 
     jbyteArray vchData = (jbyteArray)env->GetObjectField(jtx, vchDataField);
     jbyte *pVchData = env->GetByteArrayElements(vchData, JNI_FALSE);
-    tx->vch_data = (unsigned char *)pVchData;
+    //tx->vch_data = (unsigned char *)pVchData;
     jsize size1 = env->GetArrayLength(vchData);
+    memcpy(tx->vch_data, (unsigned char *)pVchData, size1);
     tx->size1 = size1;
     env->ReleaseByteArrayElements(vchData, pVchData, 0);
     env->DeleteLocalRef(vchData);
@@ -470,7 +472,7 @@ void JNICALL Java_com_bigbang_BigBangCore_signTransaction(JNIEnv *env, jobject j
 {
     const char *nativeSecretKey = env->GetStringUTFChars(secretKey, 0);
 
-    Transaction tx;
+    Transaction tx = {0};
     ConvertTransactionFromJava2C(env, txObj, &tx);
     SignTransation(&tx, nativeSecretKey);
     ConvertTransactionFromC2Java(env, &tx);
@@ -480,7 +482,7 @@ void JNICALL Java_com_bigbang_BigBangCore_signTransaction(JNIEnv *env, jobject j
 
 jstring JNICALL Java_com_bigbang_BigBangCore_serializeTxWithoutSign(JNIEnv *env, jobject jObj, jobject txObj)
 {
-    Transaction tx;
+    Transaction tx = {0};
     ConvertTransactionFromJava2C(env, txObj, &tx);
     char dataHex[1024 * 5] = {0};
     SerializeTxWithoutSign(&tx, dataHex);
@@ -490,34 +492,28 @@ jstring JNICALL Java_com_bigbang_BigBangCore_serializeTxWithoutSign(JNIEnv *env,
 
 jstring JNICALL Java_com_bigbang_BigBangCore_serializeTxWithSign(JNIEnv *env, jobject jObj, jobject txObj)
 {
-    Transaction tx;
+    Transaction tx = {0};
     ConvertTransactionFromJava2C(env, txObj, &tx);
     char dataHex[1024 * 5] = {0};
     SerializeTxWithSign(&tx, dataHex);
     jstring jDataHex = env->NewStringUTF(dataHex);
-    free(tx.sign_bytes);
     return jDataHex;
 }
 
 jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithSign(JNIEnv *env, jobject jObj, jstring dataHex)
 {
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
-    Transaction tx;
+    Transaction tx = {0};
     DeserializeTxWithSign(nativeDataHex, &tx);
     jobject jtx = ConvertTransactionFromC2Java(env, &tx);
-    free(tx.input);
-    free(tx.vch_data);
-    free(tx.sign_bytes);
     return jtx;
 }
 
 jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithoutSign(JNIEnv *env, jobject jObj, jstring dataHex)
 {
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
-    Transaction tx;
+    Transaction tx = {0};
     DeserializeTxWithoutSign(nativeDataHex, &tx);
     jobject jtx = ConvertTransactionFromC2Java(env, &tx);
-    free(tx.input);
-    free(tx.vch_data);
     return jtx;
 }
