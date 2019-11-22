@@ -11,4 +11,8 @@ Mainly offer the feature of make new address, sign transaction in off line.
 sudo apt install cmake libsodium-dev
 ```
 
-- 
+- second, run INSTALL.sh
+
+```shell
+./INSTALL.sh
+```
