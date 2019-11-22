@@ -21,19 +21,19 @@ typedef struct _Transaction
     uint32_t timestamp;
     uint32_t lock_until;
     char hash_anchor[64 + 1];            // hex string
-    unsigned char hash_anchor_bytes[32]; // binary data
+    unsigned char hash_anchor_bytes[32]; // binary data (caller do not care about this field, you just care hex field)
     uint8_t size0;
     unsigned char *input;
     uint8_t prefix;
     char address[64 + 1];            // hex string
-    unsigned char address_bytes[32]; // binary data
+    unsigned char address_bytes[32]; // binary data (caller do not care about this field, you just care hex field)
     int64_t amount;
     int64_t tx_fee;
     uint8_t size1;
-    unsigned char *vch_data;   // binary
+    unsigned char *vch_data;   // binary (caller do not care about this field, you just care hex field)
     uint8_t size2;             // binary sign data size
     char sign[1024];           // hex string
-    unsigned char *sign_bytes; // binary
+    unsigned char *sign_bytes; // binary (caller do not care about this field, you just care hex field)
 } Transaction;
 
 #ifdef __cplusplus
