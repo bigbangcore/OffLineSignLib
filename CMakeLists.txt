@@ -6,10 +6,14 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.5.1)
-project(OffLineSignLib)
+project(OffLineSignLib LANGUAGES C CXX)
 
 set(CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake" CACHE PATH "The path to the cmake directory")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_DIR})
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(sodium 1.0.8 REQUIRED)
 
