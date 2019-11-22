@@ -25,6 +25,6 @@ sudo apt install cmake libsodium-dev
 
 - Serialization and Deserialization of Transaction
 
-# Documentation
+# Document
 
 See signlib.h, here are comments for exported API.
