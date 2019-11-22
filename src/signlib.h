@@ -2,8 +2,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BIGBANG_INTERFACE_H
-#define BIGBANG_INTERFACE_H
+#ifndef BIGBANG_SIGNLIB_H
+#define BIGBANG_SIGNLIB_H
 
 #include <stdint.h>
 
