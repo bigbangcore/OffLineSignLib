@@ -350,7 +350,6 @@ static void ConvertTransactionFromJava2C(JNIEnv *env, jobject jtx, Transaction *
 
     jbyteArray inputData = (jbyteArray)env->GetObjectField(jtx, inputField);
     jbyte *pInput = env->GetByteArrayElements(inputData, JNI_FALSE);
-    //tx->input = (unsigned char *)pInput;
     jsize size0 = env->GetArrayLength(inputData);
     memcpy(tx->input, (unsigned char *)pInput, size0);
     tx->size0 = size0;
@@ -359,7 +358,6 @@ static void ConvertTransactionFromJava2C(JNIEnv *env, jobject jtx, Transaction *
 
     jbyteArray vchData = (jbyteArray)env->GetObjectField(jtx, vchDataField);
     jbyte *pVchData = env->GetByteArrayElements(vchData, JNI_FALSE);
-    //tx->vch_data = (unsigned char *)pVchData;
     jsize size1 = env->GetArrayLength(vchData);
     memcpy(tx->vch_data, (unsigned char *)pVchData, size1);
     tx->size1 = size1;
