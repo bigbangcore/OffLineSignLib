@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 
-#include "interface.h"
+#include "signlib.h"
 #include "util.h"
 
 const char *created_tx_hex_data =
@@ -26,19 +26,28 @@ int main()
 
     MakeKeyPair(pubkey, privkey);
 
-    printf("pkey: %s\nskey: %s\n", pubkey, privkey);
+    if (strlen(pubkey) != PUBKEY_HEX_LEN - 1 || strlen(pubkey) != strlen(privkey))
+    {
+        fprintf(stderr, "MakeKeyPair Test ERROR!\n");
+        fprintf(stderr, "pkey: %s\nskey: %s\n", pubkey, privkey);
+        return -1;
+    }
 
     char pkeyaddr[PUBKEY_ADDRESS_LEN] = {0};
     GetPubKeyAddress("e8e3770e774d5ad84a8ea65ed08cc7c5c30b42e045623604d5c5c6be95afb4f9", pkeyaddr);
 
     if (strcmp(pkeyaddr, "1z6taz5dyrv2xa11pc92y0ggbrf2wf36gbtk8wjprb96qe3kqwfm3ayc1") != 0)
     {
-        printf("getpubkeyaddress error\n");
+        fprintf(stderr, "GetPubKeyAddress Test ERROR!\n");
+        fprintf(stderr, "PubKeyAddress: %s\n", pkeyaddr);
+        return -1;
     }
 
     if (!IsValidAddress(pkeyaddr))
     {
-        printf("error addr\n");
+        fprintf(stderr, "IsValidAddress Test ERROR!\n");
+        fprintf(stderr, "Error Address: %s\n", pkeyaddr);
+        return -1;
     }
 
     printf("----------------------- no signed tx test ----------------------\n");

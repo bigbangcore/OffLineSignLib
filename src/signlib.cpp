@@ -1,4 +1,4 @@
-#include "interface.h"
+#include "signlib.h"
 #include "jni/com_bigbang_BigBangCore.h"
 
 #include <stdio.h>
