@@ -1,3 +1,7 @@
+// Copyright (c) 2019 The CBigbang developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef UINT256_H
 #define UINT256_H
 
