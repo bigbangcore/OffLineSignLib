@@ -16,3 +16,15 @@ sudo apt install cmake libsodium-dev
 ```shell
 ./INSTALL.sh
 ```
+
+# Features
+
+- Support normal public key address generation.
+
+- Only support public key address signature, DO NOT support template address signature.
+
+- Serialization and Deserialization of Transaction
+
+# Documentation
+
+See signlib.h, here are comments for exported API.
