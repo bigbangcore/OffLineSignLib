@@ -1,5 +1,5 @@
 # OffLineSignLib
-Mainly offer the feature of make new address, sign transaction in off line.
+Mainly offer the feature of making new address, signing transaction on off-line.
 
 # Installation
 
