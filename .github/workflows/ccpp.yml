@@ -5,8 +5,7 @@ on:
     branches:
     - master
   pull_request:
-    branches: 
-    - master
+
 
 jobs:
   build:
@@ -15,12 +14,10 @@ jobs:
     
     steps:
     - name: installdep
-      run: sudo apt install git cmake libsodium-dev
-    - name: initproject
-      run: git clone https://github.com/bigbangcore/OffLineSignLib.git && cd OffLineSignLib
-    - name: makebuild
-      run: mkdir build && cd build
-    - name: cmakegen
-      run: cd build && cmake ../
-    - name: maketest
-      run: cd build && make && ./test_lib
+      run: sudo apt install cmake libsodium-dev
+    - name: initProject
+      run: cd /home/runner/work/OffLineSignLib && git clone https://github.com/bigbangcore/OffLineSignLib.git
+    - name: buildProject
+      run: cd /home/runner/work/OffLineSignLib/OffLineSignLib && cmake . && make
+    - name: testProject
+      run: cd /home/runner/work/OffLineSignLib/OffLineSignLib && ./test_lib

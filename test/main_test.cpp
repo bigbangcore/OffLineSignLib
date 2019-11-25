@@ -193,6 +193,8 @@ int main()
 
     SignTransation(&tx_desrialized1, "3a7a45f05643fa2e7eeb11da2e2c66e43ddf4f7535dccbb3e6c07fb39201b1df");
 
+    PrintTx(&tx_desrialized1);
+
     char signedDataHex[1024 * 5] = {0};
     SerializeTxWithSign(&tx_desrialized1, signedDataHex);
 
