@@ -44,7 +44,7 @@ add_executable(sign-cli ${cli_src})
 target_link_libraries(sign-cli offlinesign ${sodium_LIBRARY_RELEASE})
 
 install(TARGETS offlinesign
-        LIBRARY DESTINATION lib)
+        LIBRARY DESTINATION /usr/lib/jni)
 
 install(TARGETS offlinesign
         LIBRARY DESTINATION lib)
