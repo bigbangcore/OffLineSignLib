@@ -23,6 +23,36 @@ const char *created_tx_hex_data1 =
 
 const char *signed_tx_hex_data1 =
     "010000005948d75d0000000069c07b268573a89eb2bf00a895d0ccd557b83af5490e15ca8d41dedc0000000002e563f10b18dc361305815da5b464ae6af0a39e5ef2dccf1a74e63b219781d65d00a43970696b5c1b39b0bf4bc0b68df5fb993213c367709a0b3cd9b42c8d31d65d000100815a6d40702a7da0a810de9ba76091cf0f7df0b7b56b7a6ef280c9ff26c14f40420f0000000000640000000000000000400d6c650009275f9fa4f64cbd4712e995f84f00f96d056b4610d983c8d0cbad8aefcf75dbfa3f9afaf4bd27e9062f96a2fbc8a98a4feb796bfde547dcb9836b0c";
+
+static void PrintTx(Transaction *tx)
+{
+    printf("tx version is: %u\n", tx->version);
+
+    printf("tx type is: %u\n", tx->type);
+
+    printf("tx timestamp: %u\n", tx->timestamp);
+
+    printf("lock util: %u\n", tx->lock_until);
+
+    printf("tx hash anchor: %s\n", tx->hash_anchor);
+
+    printf("tx address: %s\n", tx->address);
+
+    printf("tx input size: %u\n", tx->size0);
+
+    printf("tx vchData size1: %u\n", tx->size1);
+
+    printf("tx prefix: %u\n", tx->prefix);
+
+    printf("tx amount: %lu\n", tx->amount);
+
+    printf("tx fee: %lu\n", tx->tx_fee);
+
+    printf("tx signed size: %u\n", tx->size2);
+
+    printf("tx sign: %s\n", tx->sign);
+}
+
 int main()
 {
     char pubkey[PUBKEY_HEX_LEN] = {0};
@@ -54,37 +84,81 @@ int main()
         return -1;
     }
 
-    printf("----------------------- no signed tx test ----------------------\n");
-
     Transaction tx_desrialized = {0};
 
     DeserializeTxWithoutSign(created_tx_hex_data, &tx_desrialized);
 
-    printf("tx version is: %u\n", tx_desrialized.version);
+    if (tx_desrialized.version != 1)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Version Test Error.\n");
+        return -1;
+    }
 
-    printf("tx type is: %u\n", tx_desrialized.type);
+    if (tx_desrialized.type != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Type Test Error.\n");
+        return -1;
+    }
 
-    printf("tx timestamp: %u\n", tx_desrialized.timestamp);
+    if (tx_desrialized.timestamp != 1574244676)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx TimeStamp Test Error.\n");
+        return -1;
+    }
 
-    printf("lock util: %u\n", tx_desrialized.lock_until);
+    if (tx_desrialized.lock_until != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx LockUtil Test Error.\n");
+        return -1;
+    }
 
-    printf("tx hash anchor: %s\n", tx_desrialized.hash_anchor);
+    if (strcmp(tx_desrialized.hash_anchor, "00000000dcde418dca150e49f53ab857d5ccd095a800bfb29ea87385267bc069") != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Hash Anchor Test Error.\n");
+        return -1;
+    }
 
-    printf("tx address: %s\n", tx_desrialized.address);
+    if (strcmp(tx_desrialized.address, "134ayq46sz78dj8hkwcvs7m2c19fp7176bze2x87z1665vcmdj42y7a7s") != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Address Test Error.\n");
+        return -1;
+    }
 
-    printf("tx size0: %u\n", tx_desrialized.size0);
+    if (tx_desrialized.size0 != 1)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx size0 Test Error.\n");
+        return -1;
+    }
 
-    printf("tx size1: %u\n", tx_desrialized.size1);
+    if (tx_desrialized.size1 != 0 && strlen((char *)tx_desrialized.vch_data) != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx vchData Test Error.\n");
+        return -1;
+    }
 
-    printf("tx prefix: %u\n", tx_desrialized.prefix);
+    if (tx_desrialized.prefix != 1)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Prefix Test Error.\n");
+        return -1;
+    }
 
-    printf("tx amount: %lu\n", tx_desrialized.amount);
+    if (tx_desrialized.amount != 1000000)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx amount Test Error.\n");
+        return -1;
+    }
 
-    printf("tx fee: %lu\n", tx_desrialized.tx_fee);
+    if (tx_desrialized.tx_fee != 100)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx fee Test Error.\n");
+        return -1;
+    }
 
-    printf("tx size2: %u\n", tx_desrialized.size2);
-
-    printf("tx sign: %s\n", tx_desrialized.sign);
+    if (tx_desrialized.size2 != 0 && strlen((char *)tx_desrialized.sign) != 0)
+    {
+        fprintf(stderr, "DeserializeTxWithoutSign Tx Sign Test Error.\n");
+        return -1;
+    }
 
     char hexxx[1024 * 5] = {0};
     SerializeTxWithoutSign(&tx_desrialized, hexxx);
@@ -101,31 +175,7 @@ int main()
     Transaction tx_signed_deserialized = {0};
     DeserializeTxWithSign(signed_tx_hex_data, &tx_signed_deserialized);
 
-    printf("tx version is: %u\n", tx_signed_deserialized.version);
-
-    printf("tx type is: %u\n", tx_signed_deserialized.type);
-
-    printf("tx timestamp: %u\n", tx_signed_deserialized.timestamp);
-
-    printf("lock util: %u\n", tx_signed_deserialized.lock_until);
-
-    printf("tx hash anchor: %s\n", tx_signed_deserialized.hash_anchor);
-
-    printf("tx address: %s\n", tx_signed_deserialized.address);
-
-    printf("tx size0: %u\n", tx_signed_deserialized.size0);
-
-    printf("tx size1: %u\n", tx_signed_deserialized.size1);
-
-    printf("tx prefix: %u\n", tx_signed_deserialized.prefix);
-
-    printf("tx amount: %lu\n", tx_signed_deserialized.amount);
-
-    printf("tx fee: %lu\n", tx_signed_deserialized.tx_fee);
-
-    printf("tx size2: %u\n", tx_signed_deserialized.size2);
-
-    printf("tx sign: %s\n", tx_signed_deserialized.sign);
+    PrintTx(&tx_signed_deserialized);
 
     char hexSignedTx[1024 * 5] = {0};
     SerializeTxWithSign(&tx_signed_deserialized, hexSignedTx);
@@ -137,7 +187,7 @@ int main()
         return -1;
     }
 
-    printf("SerializeTxWithSign Hex: %s\n", hexSignedTx);
+    printf("------------- Sign Tx Test------------------\n");
 
     Transaction tx_desrialized1 = {0};
     DeserializeTxWithoutSign(created_tx_hex_data1, &tx_desrialized1);
@@ -153,8 +203,6 @@ int main()
         fprintf(stderr, "SerializeTxWithSign Hex: %s\n", signedDataHex);
         return -1;
     }
-
-    printf("SerializeTxWithSign Hex: %s\n", signedDataHex);
 
     return 0;
 }
