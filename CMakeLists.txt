@@ -33,7 +33,7 @@ target_link_libraries(offlinesign
     ${sodium_LIBRARY_RELEASE}
 )
 
-set(exec_src test/main.cpp)
+set(exec_src test/main_test.cpp)
 add_executable(test_lib ${exec_src})
 
 target_link_libraries(test_lib offlinesign ${sodium_LIBRARY_RELEASE})
