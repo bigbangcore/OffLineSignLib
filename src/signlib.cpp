@@ -308,14 +308,14 @@ static void ConvertTransactionFromJava2C(JNIEnv *env, jobject jtx, Transaction *
 
     jfieldID versionField = env->GetFieldID(txCls, "version", "I");
     jfieldID typeField = env->GetFieldID(txCls, "type", "I");
-    jfieldID timestampField = env->GetFieldID(txCls, "timestamp", "L");
-    jfieldID lockUntilField = env->GetFieldID(txCls, "lockUntil", "L");
+    jfieldID timestampField = env->GetFieldID(txCls, "timestamp", "J");
+    jfieldID lockUntilField = env->GetFieldID(txCls, "lockUntil", "J");
     jfieldID hashAnchorField = env->GetFieldID(txCls, "hashAnchor", "Ljava/lang/String;");
     jfieldID inputField = env->GetFieldID(txCls, "input", "[B");
     jfieldID prefixField = env->GetFieldID(txCls, "prefix", "S");
     jfieldID addressField = env->GetFieldID(txCls, "address", "Ljava/lang/String;");
-    jfieldID amountField = env->GetFieldID(txCls, "amount", "L");
-    jfieldID txFeeField = env->GetFieldID(txCls, "txFee", "L");
+    jfieldID amountField = env->GetFieldID(txCls, "amount", "J");
+    jfieldID txFeeField = env->GetFieldID(txCls, "txFee", "J");
     jfieldID vchDataField = env->GetFieldID(txCls, "vchData", "[B");
     jfieldID signField = env->GetFieldID(txCls, "sign", "Ljava/lang/String;");
 
@@ -375,14 +375,14 @@ static jobject ConvertTransactionFromC2Java(JNIEnv *env, Transaction *tx)
 
     jfieldID versionField = env->GetFieldID(txCls, "version", "I");
     jfieldID typeField = env->GetFieldID(txCls, "type", "I");
-    jfieldID timestampField = env->GetFieldID(txCls, "timestamp", "L");
-    jfieldID lockUntilField = env->GetFieldID(txCls, "lockUntil", "L");
+    jfieldID timestampField = env->GetFieldID(txCls, "timestamp", "J");
+    jfieldID lockUntilField = env->GetFieldID(txCls, "lockUntil", "J");
     jfieldID hashAnchorField = env->GetFieldID(txCls, "hashAnchor", "Ljava/lang/String;");
     jfieldID inputField = env->GetFieldID(txCls, "input", "[B");
     jfieldID prefixField = env->GetFieldID(txCls, "prefix", "S");
     jfieldID addressField = env->GetFieldID(txCls, "address", "Ljava/lang/String;");
-    jfieldID amountField = env->GetFieldID(txCls, "amount", "L");
-    jfieldID txFeeField = env->GetFieldID(txCls, "txFee", "L");
+    jfieldID amountField = env->GetFieldID(txCls, "amount", "J");
+    jfieldID txFeeField = env->GetFieldID(txCls, "txFee", "J");
     jfieldID vchDataField = env->GetFieldID(txCls, "vchData", "[B");
     jfieldID signField = env->GetFieldID(txCls, "sign", "Ljava/lang/String;");
 
