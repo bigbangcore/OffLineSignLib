@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+    - name: installdep
+      run: sudo apt install cmake libsodium-dev
+    - name: makebuild
+      run: mkdir build && cd build
+    - name: cmakegen
+      run: cmake ../
+    - name: maketest
+      run: make && ./test_lib
