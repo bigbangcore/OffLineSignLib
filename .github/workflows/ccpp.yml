@@ -17,7 +17,7 @@ jobs:
     - name: installdep
       run: sudo apt install git cmake libsodium-dev
     - name: initproject
-      run: git clone https://github.com/bigbangcore/OffLineSignLib.git && cd OffLineSignLib
+      run: git clone https://github.com/bigbangcore/OffLineSignLib.git && cd OffLineSignLib && ls
     - name: makebuild
       run: mkdir build && cd build
     - name: cmakegen
