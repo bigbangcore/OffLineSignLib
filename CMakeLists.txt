@@ -38,5 +38,14 @@ add_executable(test_lib ${exec_src})
 
 target_link_libraries(test_lib offlinesign ${sodium_LIBRARY_RELEASE})
 
+set(cli_src cli/main_cli.cpp)
+add_executable(sign-cli ${cli_src})
+
+target_link_libraries(sign-cli offlinesign ${sodium_LIBRARY_RELEASE})
+
 install(TARGETS offlinesign
         LIBRARY DESTINATION lib)
+
+install(TARGETS offlinesign
+        LIBRARY DESTINATION lib)
+
