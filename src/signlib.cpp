@@ -473,14 +473,14 @@ void JNICALL Java_com_bigbang_BigBangCore_signTransaction(JNIEnv *env, jobject j
     Transaction tx = {0};
     ConvertTransactionFromJava2C(env, txObj, &tx);
     SignTransation(&tx, nativeSecretKey);
-    
+
     jclass txCls = env->GetObjectClass(txObj);
 
     jfieldID signField = env->GetFieldID(txCls, "sign", "Ljava/lang/String;");
 
     env->DeleteLocalRef(txCls);
-    
-    jstring jSign = env->NewStringUTF(tx->sign);
+
+    jstring jSign = env->NewStringUTF(tx.sign);
     env->SetObjectField(txObj, signField, jSign);
     env->DeleteLocalRef(jSign);
 
