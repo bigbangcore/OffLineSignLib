@@ -150,8 +150,24 @@ static void GetAddressFromPubKey(uint256_t *pubkey, char *address)
     strcpy(address, addressStr.c_str());
 }
 
-void GetPubKeyAddress(const char *pubkey, char *address)
+static bool IsInvalidUint256String(const char *hex)
 {
+    if (strlen(hex) == 0 || strlen(hex) != 64)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+ERROR_CODE GetPubKeyAddress(const char *pubkey, char *address)
+{
+    if (IsInvalidUint256String(pubkey))
+    {
+        return ERROR_INVALID_PUBLIC_KEY;
+    }
     uint256_t pubkey256;
     uint256_set_hex(&pubkey256, (char *)pubkey);
 
@@ -159,6 +175,8 @@ void GetPubKeyAddress(const char *pubkey, char *address)
     //strcpy(address, addressStr.c_str());
 
     GetAddressFromPubKey(&pubkey256, address);
+
+    return ERROR_OK;
 }
 
 BOOL IsValidAddress(const char *address)
@@ -173,8 +191,18 @@ BOOL IsValidAddress(const char *address)
     }
 }
 
-void SignTransation(Transaction *tx, const char *secretHex)
+ERROR_CODE SignTransation(Transaction *tx, const char *secretHex)
 {
+    if (IsInvalidUint256String(secretHex))
+    {
+        return ERROR_INVALID_PRIVATE_KEY;
+    }
+
+    if (IsInvalidUint256String(tx->hash_anchor))
+    {
+        return ERROR_INVALID_TX_HASH_ANCHOR;
+    }
+
     unsigned char data[4096];
 
     uint256_t hashAchor256;
@@ -203,10 +231,18 @@ void SignTransation(Transaction *tx, const char *secretHex)
     memset(tx->sign, 0, 1024);
     strcpy(tx->sign, hexStr.c_str());
     tx->size2 = 64;
+
+    return ERROR_OK;
 }
 
-void SerializeTxWithSign(Transaction *tx, char *dataHex)
+ERROR_CODE SerializeTxWithSign(Transaction *tx, char *dataHex)
 {
+
+    if (IsInvalidUint256String(tx->hash_anchor))
+    {
+        return ERROR_INVALID_TX_HASH_ANCHOR;
+    }
+
     size_t size = 0;
     unsigned char data[1024 * 5];
 
@@ -233,10 +269,17 @@ void SerializeTxWithSign(Transaction *tx, char *dataHex)
     serialize_join(&size, tx->sign_bytes, size_thing, data);
 
     strcpy(dataHex, ToHexString(data, size).c_str());
+
+    return ERROR_OK;
 }
 
-void SerializeTxWithoutSign(Transaction *tx, char *dataHex)
+ERROR_CODE SerializeTxWithoutSign(Transaction *tx, char *dataHex)
 {
+    if (IsInvalidUint256String(tx->hash_anchor))
+    {
+        return ERROR_INVALID_TX_HASH_ANCHOR;
+    }
+
     size_t size = 0;
     unsigned char data[1024 * 5];
 
@@ -251,10 +294,16 @@ void SerializeTxWithoutSign(Transaction *tx, char *dataHex)
     size = tx_serialize_without_sign(tx, data);
 
     strcpy(dataHex, ToHexString(data, size).append("00").c_str());
+
+    return ERROR_OK;
 }
 
-void DeserializeTxWithSign(const char *dataHex, Transaction *tx)
+ERROR_CODE DeserializeTxWithSign(const char *dataHex, Transaction *tx)
 {
+    if (strlen(dataHex) == 0)
+    {
+        return ERROR_INVALID_DESERIALIZE_HEX;
+    }
 
     size_t size = 0;
 
@@ -280,10 +329,17 @@ void DeserializeTxWithSign(const char *dataHex, Transaction *tx)
     GetAddressFromPubKey(&address256, tx->address);
 
     strcpy(tx->sign, ToHexString(tx->sign_bytes, size_thing).c_str());
+
+    return ERROR_OK;
 }
 
-void DeserializeTxWithoutSign(const char *dataHex, Transaction *tx)
+ERROR_CODE DeserializeTxWithoutSign(const char *dataHex, Transaction *tx)
 {
+    if (strlen(dataHex) == 0)
+    {
+        return ERROR_INVALID_DESERIALIZE_HEX;
+    }
+
     size_t size = 0;
 
     std::string hexStr(dataHex);
@@ -298,6 +354,8 @@ void DeserializeTxWithoutSign(const char *dataHex, Transaction *tx)
     uint256_t address256;
     memcpy(&address256, tx->address_bytes, 32);
     GetAddressFromPubKey(&address256, tx->address);
+
+    return ERROR_OK;
 }
 
 /////////////////////  for JNI //////////////////////////
