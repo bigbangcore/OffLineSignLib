@@ -526,7 +526,7 @@ jboolean JNICALL Java_com_bigbang_BigBangCore_isValidAddress(JNIEnv *env, jobjec
     {
         jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Address can not be null");
-        return NULL;
+        return JNI_FALSE;
     }
 
     const char *nativeAddress = env->GetStringUTFChars(address, JNI_FALSE);
