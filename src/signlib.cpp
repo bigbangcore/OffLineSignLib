@@ -594,13 +594,12 @@ jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithSign(JNIEnv *env, 
 
 jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithoutSign(JNIEnv *env, jobject jObj, jstring dataHex)
 {
-    if (NULL == dataHex)
+    const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
+    if (NULL == nativeDataHex)
     {
         jclass exceptionCls = env->FindClass("jav/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Transaction hex string can not be null");
     }
-    
-    const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
     Transaction tx = {0};
     DeserializeTxWithoutSign(nativeDataHex, &tx);
     jobject jtx = ConvertTransactionFromC2Java(env, &tx);
