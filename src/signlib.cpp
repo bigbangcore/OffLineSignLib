@@ -507,6 +507,7 @@ jstring JNICALL Java_com_bigbang_BigBangCore_getPubKeyAddress(JNIEnv *env, jobje
     {
         jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Public key can not be null");
+        return NULL;
     }
 
     const char *nativePubKey = env->GetStringUTFChars(pubkey, JNI_FALSE);
@@ -525,6 +526,7 @@ jboolean JNICALL Java_com_bigbang_BigBangCore_isValidAddress(JNIEnv *env, jobjec
     {
         jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Address can not be null");
+        return NULL;
     }
 
     const char *nativeAddress = env->GetStringUTFChars(address, JNI_FALSE);
@@ -583,6 +585,7 @@ jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithSign(JNIEnv *env, 
     {
         jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Transaction hex string can not be null");
+        return NULL;
     }
     
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
@@ -598,6 +601,7 @@ jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithoutSign(JNIEnv *en
     {
         jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(exceptionCls, "Transaction hex string can not be null");
+        return NULL;
     }
     
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
