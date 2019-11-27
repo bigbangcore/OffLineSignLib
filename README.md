@@ -28,3 +28,5 @@ sudo apt install cmake libsodium-dev
 # Document
 
 See signlib.h, here are comments for exported API.
+
+For Java SDK, pelease read the document [here](java/README.md) to get more details.

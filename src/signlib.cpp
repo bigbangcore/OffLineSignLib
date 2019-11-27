@@ -503,6 +503,13 @@ jobjectArray JNICALL Java_com_bigbang_BigBangCore_makeKeyPair(JNIEnv *env, jobje
 
 jstring JNICALL Java_com_bigbang_BigBangCore_getPubKeyAddress(JNIEnv *env, jobject jobj, jstring pubkey)
 {
+    if (NULL == pubkey)
+    {
+        jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
+        env->ThrowNew(exceptionCls, "Public key can not be null");
+        return NULL;
+    }
+
     const char *nativePubKey = env->GetStringUTFChars(pubkey, JNI_FALSE);
 
     char pkeyaddr[PUBKEY_ADDRESS_LEN] = {0};
@@ -515,6 +522,13 @@ jstring JNICALL Java_com_bigbang_BigBangCore_getPubKeyAddress(JNIEnv *env, jobje
 
 jboolean JNICALL Java_com_bigbang_BigBangCore_isValidAddress(JNIEnv *env, jobject jobj, jstring address)
 {
+    if (NULL == address)
+    {
+        jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
+        env->ThrowNew(exceptionCls, "Address can not be null");
+        return JNI_FALSE;
+    }
+
     const char *nativeAddress = env->GetStringUTFChars(address, JNI_FALSE);
 
     jboolean isValid = IsValidAddress(nativeAddress) ? JNI_TRUE : JNI_FALSE;
@@ -567,6 +581,13 @@ jstring JNICALL Java_com_bigbang_BigBangCore_serializeTxWithSign(JNIEnv *env, jo
 
 jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithSign(JNIEnv *env, jobject jObj, jstring dataHex)
 {
+    if (NULL == dataHex)
+    {
+        jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
+        env->ThrowNew(exceptionCls, "Transaction hex string can not be null");
+        return NULL;
+    }
+    
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
     Transaction tx = {0};
     DeserializeTxWithSign(nativeDataHex, &tx);
@@ -576,6 +597,13 @@ jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithSign(JNIEnv *env, 
 
 jobject JNICALL Java_com_bigbang_BigBangCore_deserializeTxWithoutSign(JNIEnv *env, jobject jObj, jstring dataHex)
 {
+    if (NULL == dataHex)
+    {
+        jclass exceptionCls = env->FindClass("java/lang/IllegalArgumentException");
+        env->ThrowNew(exceptionCls, "Transaction hex string can not be null");
+        return NULL;
+    }
+    
     const char *nativeDataHex = env->GetStringUTFChars(dataHex, JNI_FALSE);
     Transaction tx = {0};
     DeserializeTxWithoutSign(nativeDataHex, &tx);
